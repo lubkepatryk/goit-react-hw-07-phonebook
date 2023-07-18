@@ -4,26 +4,15 @@ import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts, getFilter } from '../redux/selectors';
-import { addContact, delContact, setFilter } from '../redux/createAction';
-import axios from 'axios';
+import { addContact, delContact, fetchContacts } from '../redux/createAction';
 
 export const App = () => {
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
   const dispatch = useDispatch();
-  const apiBaseUrl = 'https://64b65d67df0839c97e156daf.mockapi.io/contacts/contacts';
-
+  
   useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const response = await axios.get(`${apiBaseUrl}`);
-        dispatch(addContact(response.data));
-      } catch (error) {
-        console.error('Error fetching contacts:', error);
-      }
-    };
-
-    fetchContacts();
+    dispatch(fetchContacts());
   }, [dispatch]);
 
   const handleSubmit = (e) => {
